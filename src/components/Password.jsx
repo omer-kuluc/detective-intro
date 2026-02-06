@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from 'react'; // useLayoutEffect ekledik
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import FloatingLetter from './FloatingLetter';
 
@@ -10,14 +10,24 @@ const Password = () => {
   const [message, setMessage] = useState('');
 
   useLayoutEffect(() => {
-    // 1. Context oluştur: Tüm animasyonları bir grupta topla
     let ctx = gsap.context(() => {
-
-      // Başlangıçta elemanları görünmez veya hazır konuma getir (Flaş çakmasını önler)
-      gsap.set([phoneRef.current, guessMsgRef.current], { opacity: 0 });
+      // 1. ADIM: Her şeyi daha en baştan (paint öncesi) görünmez ve hazır konuma çek
+      gsap.set(containerRef.current, { visibility: "hidden", opacity: 0 });
+      gsap.set(phoneRef.current, { opacity: 0, y: 30 });
+      gsap.set(['.passcode-slot', '.label-text'], { opacity: 0 });
       gsap.set(inputRef.current, { scale: 1, x: 0 });
 
-      const tl = gsap.timeline({ repeat: -1, repeatDelay: 2 });
+      // 2. ADIM: Sahneyi görünür yap ama içindekiler hala opacity 0
+      gsap.set(containerRef.current, { visibility: "visible", opacity: 1 });
+
+      // 3. ADIM: Giriş Animasyonu (Sadece 1 kere çalışır)
+      const introTl = gsap.timeline();
+      introTl.to(phoneRef.current, { opacity: 1, y: 0, duration: 1.2, ease: "power4.out" })
+        .to('.label-text', { opacity: 1, duration: 0.8, stagger: 0.2 }, "-=0.8")
+        .to('.passcode-slot', { opacity: 1, duration: 0.5, stagger: 0.1 }, "-=0.5");
+
+      // 4. ADIM: Ana Döngü (Timeline)
+      const tl = gsap.timeline({ repeat: -1, repeatDelay: 2, delay: 1 });
 
       const updateSlot = (index, char) => {
         const slots = inputRef.current?.children;
@@ -44,11 +54,8 @@ const Password = () => {
         });
       };
 
-      // Telefonu yumuşakça göster (Timeline başlamadan hemen önce)
-      tl.to(phoneRef.current, { opacity: 1, duration: 0.5 });
-
-      // --- Faz 1: 221B ---
-      tl.to({}, { duration: 1 })
+      // --- FAZLAR ---
+      tl.to({}, { duration: 0.5 })
         .call(() => updateSlot(0, '2')).to({}, { duration: 0.2 })
         .call(() => updateSlot(1, '2')).to({}, { duration: 0.2 })
         .call(() => updateSlot(2, '1')).to({}, { duration: 0.2 })
@@ -64,7 +71,6 @@ const Password = () => {
         .to(guessMsgRef.current, { opacity: 0, duration: 0.3 })
         .call(() => { clearSlots(); setPassColor('#ffffff'); });
 
-      // --- Faz 2: 1826 ---
       tl.to({}, { duration: 0.5 })
         .call(() => updateSlot(0, '1')).to({}, { duration: 0.2 })
         .call(() => updateSlot(1, '8')).to({}, { duration: 0.2 })
@@ -81,7 +87,6 @@ const Password = () => {
         .to(guessMsgRef.current, { opacity: 0, duration: 0.3 })
         .call(() => { clearSlots(); setPassColor('#ffffff'); });
 
-      // --- Faz 3: **** ---
       tl.to({}, { duration: 0.5 })
         .call(() => updateSlot(0, '*')).to({}, { duration: 0.2 })
         .call(() => updateSlot(1, '*')).to({}, { duration: 0.2 })
@@ -93,7 +98,7 @@ const Password = () => {
           setMessage('UNLOCKED');
         })
         .to(guessMsgRef.current, { opacity: 1, color: '#22c55e', duration: 0.3 })
-        .to(inputRef.current, { scale: 1.05, duration: 0.4 })
+        .to(inputRef.current, { scale: 1.1, duration: 0.4 })
         .to({}, { duration: 2.5 })
         .to(phoneRef.current, { opacity: 0, duration: 0.8 })
         .call(() => {
@@ -105,13 +110,13 @@ const Password = () => {
         })
         .to(phoneRef.current, { opacity: 1, duration: 0.8 });
 
-    }, containerRef); // Scoped selection
+    }, containerRef);
 
-    return () => ctx.revert(); // Bellek temizliği
+    return () => ctx.revert();
   }, []);
 
   return (
-    <div ref={containerRef} className="password-main-container flash-prevent">
+    <div ref={containerRef} className="password-main-container">
       <div className="floating-letters-container">
         <FloatingLetter char="s" />
         <FloatingLetter char="h" />
