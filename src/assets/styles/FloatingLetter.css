@@ -1,0 +1,35 @@
+/* Mobil Kodları */
+.floating-letter {
+  position: absolute;
+  font-size: 8rem;
+  font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+  user-select: none;
+  pointer-events: none;
+  white-space: nowrap;
+  /* Harfin fiziksel olarak yer kaplamamasını garantiler */
+  color: #ffffff;
+
+  font-style: italic;
+  filter: blur(1.5px);
+  transform-origin: center center;
+  /* Başlangıçta görünürlüğü kontrol etmek için varsayılan opaklık */
+  opacity: 0.15;
+}
+
+@media(width>=768px) {
+
+  /* Tablet Kodları */
+  .floating-letter {
+    font-size: 10rem;
+    filter: blur(2px);
+  }
+}
+
+@media(width>=1280px) {
+
+  /* Desktop Kodları */
+  .floating-letter {
+    font-size: 12rem;
+    filter: blur(2.5px);
+  }
+}
