@@ -74,8 +74,8 @@ const Password = () => {
       tl.to({}, { duration: 0.5 })
         .call(() => updateSlot(0, '1')).to({}, { duration: 0.2 })
         .call(() => updateSlot(1, '8')).to({}, { duration: 0.2 })
-        .call(() => updateSlot(2, '2')).to({}, { duration: 0.2 })
-        .call(() => updateSlot(3, '6'))
+        .call(() => updateSlot(2, '9')).to({}, { duration: 0.2 })
+        .call(() => updateSlot(3, '5'))
         .to({}, { duration: 0.5 })
         .call(() => {
           setPassColor('#ef4444');
