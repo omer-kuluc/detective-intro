@@ -11,24 +11,22 @@ const Password = () => {
 
   useLayoutEffect(() => {
     let ctx = gsap.context(() => {
-      // 1. ADIM: Her şeyi daha en baştan (paint öncesi) görünmez ve hazır konuma çek
+      // 1. ADIM: Başlangıç ayarları
       gsap.set(containerRef.current, { visibility: "hidden", opacity: 0 });
       gsap.set(phoneRef.current, { opacity: 0, y: 30 });
       gsap.set(['.passcode-slot', '.label-text'], { opacity: 0 });
       gsap.set(inputRef.current, { scale: 1, x: 0 });
 
-      // 2. ADIM: Sahneyi görünür yap ama içindekiler hala opacity 0
+      // 2. ADIM: Sahneyi görünür yap
       gsap.set(containerRef.current, { visibility: "visible", opacity: 1 });
 
-      // 3. ADIM: Giriş Animasyonu (Sadece 1 kere çalışır)
+      // 3. ADIM: Giriş Animasyonu
       const introTl = gsap.timeline();
       introTl.to(phoneRef.current, { opacity: 1, y: 0, duration: 1.2, ease: "power4.out" })
         .to('.label-text', { opacity: 1, duration: 0.8, stagger: 0.2 }, "-=0.8")
         .to('.passcode-slot', { opacity: 1, duration: 0.5, stagger: 0.1 }, "-=0.5");
 
-      // 4. ADIM: Ana Döngü (Timeline)
-      const tl = gsap.timeline({ repeat: -1, repeatDelay: 2, delay: 1 });
-
+      // Yardımcı Fonksiyonlar
       const updateSlot = (index, char) => {
         const slots = inputRef.current?.children;
         if (slots && slots[index]) {
@@ -54,7 +52,27 @@ const Password = () => {
         });
       };
 
-      // --- FAZLAR ---
+      // 4. ADIM: Ana Döngü (4 Hak)
+      const tl = gsap.timeline({ repeat: -1, repeatDelay: 2, delay: 1 });
+
+      // --- 1. HAK: 1895 (Hata) ---
+      tl.to({}, { duration: 0.5 })
+        .call(() => updateSlot(0, '1')).to({}, { duration: 0.2 })
+        .call(() => updateSlot(1, '8')).to({}, { duration: 0.2 })
+        .call(() => updateSlot(2, '9')).to({}, { duration: 0.2 })
+        .call(() => updateSlot(3, '5'))
+        .to({}, { duration: 0.5 })
+        .call(() => {
+          setPassColor('#ef4444');
+          shakeInput();
+          setMessage('3 guesses left');
+        })
+        .to(guessMsgRef.current, { opacity: 1, duration: 0.3 })
+        .to({}, { duration: 1.5 })
+        .to(guessMsgRef.current, { opacity: 0, duration: 0.3 })
+        .call(() => { clearSlots(); setPassColor('#ffffff'); });
+
+      // --- 3. HAK: 221B (Hata) ---
       tl.to({}, { duration: 0.5 })
         .call(() => updateSlot(0, '2')).to({}, { duration: 0.2 })
         .call(() => updateSlot(1, '2')).to({}, { duration: 0.2 })
@@ -71,22 +89,27 @@ const Password = () => {
         .to(guessMsgRef.current, { opacity: 0, duration: 0.3 })
         .call(() => { clearSlots(); setPassColor('#ffffff'); });
 
+
+
+      // --- 2. HAK: 1058 (Hata) ---
       tl.to({}, { duration: 0.5 })
         .call(() => updateSlot(0, '1')).to({}, { duration: 0.2 })
-        .call(() => updateSlot(1, '8')).to({}, { duration: 0.2 })
-        .call(() => updateSlot(2, '9')).to({}, { duration: 0.2 })
-        .call(() => updateSlot(3, '5'))
+        .call(() => updateSlot(1, '0')).to({}, { duration: 0.2 })
+        .call(() => updateSlot(2, '5')).to({}, { duration: 0.2 })
+        .call(() => updateSlot(3, '8'))
         .to({}, { duration: 0.5 })
         .call(() => {
           setPassColor('#ef4444');
           shakeInput();
-          setMessage('1 guesses left');
+          setMessage('1 guess left');
         })
         .to(guessMsgRef.current, { opacity: 1, duration: 0.3 })
         .to({}, { duration: 1.5 })
         .to(guessMsgRef.current, { opacity: 0, duration: 0.3 })
         .call(() => { clearSlots(); setPassColor('#ffffff'); });
 
+
+      // --- 4. HAK: **** (Başarılı) ---
       tl.to({}, { duration: 0.5 })
         .call(() => updateSlot(0, '*')).to({}, { duration: 0.2 })
         .call(() => updateSlot(1, '*')).to({}, { duration: 0.2 })
