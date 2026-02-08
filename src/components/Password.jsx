@@ -123,7 +123,7 @@ const Password = () => {
         .to(guessMsgRef.current, { opacity: 1, color: '#22c55e', duration: 0.3 })
         .to(inputRef.current, { scale: 1.1, duration: 0.4 })
         .to({}, { duration: 2.5 })
-        .to(phoneRef.current, { opacity: 0, duration: 0.8 })
+        .to(phoneRef.current, { opacity: 0, duration: 1.75 })
         .call(() => {
           clearSlots();
           setPassColor('#ffffff');
@@ -131,7 +131,7 @@ const Password = () => {
           gsap.set(inputRef.current, { scale: 1, x: 0 });
           gsap.set(guessMsgRef.current, { color: '#ffffff' });
         })
-        .to(phoneRef.current, { opacity: 1, duration: 0.8 });
+        .to(phoneRef.current, { opacity: 1, duration: 1.75 });
 
     }, containerRef);
 
@@ -141,10 +141,10 @@ const Password = () => {
   return (
     <div ref={containerRef} className="password-main-container">
       <div className="floating-letters-container">
-        <FloatingLetter char="s" />
-        <FloatingLetter char="h" />
-        <FloatingLetter char="e" />
-        <FloatingLetter char="r" />
+        <FloatingLetter char="S" />
+        <FloatingLetter char="H" />
+        <FloatingLetter char="E" />
+        <FloatingLetter char="R" />
       </div>
 
       <div ref={phoneRef} className="phone-body">
