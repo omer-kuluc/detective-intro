@@ -122,7 +122,7 @@ const Password = () => {
         })
         .to(guessMsgRef.current, { opacity: 1, color: '#22c55e', duration: 0.3 })
         .to(inputRef.current, { scale: 1.1, duration: 0.4 })
-        .to({}, { duration: 2.5 })
+        .to({}, { duration: 1.5 })
         .to(phoneRef.current, { opacity: 0, duration: 1.75 })
         .call(() => {
           clearSlots();
