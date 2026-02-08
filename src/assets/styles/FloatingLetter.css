@@ -1,4 +1,3 @@
-/* Mobil Kodları */
 .floating-letter {
   position: absolute;
   font-size: 8rem;
@@ -10,12 +9,8 @@
   font-style: italic;
   filter: blur(1.5px);
   transform-origin: center center;
-
-  /* FLAŞI ENGELLEYEN KRİTİK AYARLAR */
   opacity: 0;
-  /* 0.15'ti, 0 yaptık çünkü JS ile canlandıracağız */
   visibility: hidden;
-  /* JS yüklenene kadar tamamen gizle */
 }
 
 @media(width>=768px) {

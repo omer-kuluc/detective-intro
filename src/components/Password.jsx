@@ -11,22 +11,22 @@ const Password = () => {
 
   useLayoutEffect(() => {
     let ctx = gsap.context(() => {
-      // 1. ADIM: Başlangıç ayarları
+
+      // 1. ADIM: Başlangıç
       gsap.set(containerRef.current, { visibility: "hidden", opacity: 0 });
       gsap.set(phoneRef.current, { opacity: 0, y: 30 });
       gsap.set(['.passcode-slot', '.label-text'], { opacity: 0 });
       gsap.set(inputRef.current, { scale: 1, x: 0 });
 
-      // 2. ADIM: Sahneyi görünür yap
+      // 2. ADIM: Sahne
       gsap.set(containerRef.current, { visibility: "visible", opacity: 1 });
 
-      // 3. ADIM: Giriş Animasyonu
+      // 3. ADIM: Giriş 
       const introTl = gsap.timeline();
       introTl.to(phoneRef.current, { opacity: 1, y: 0, duration: 1.2, ease: "power4.out" })
         .to('.label-text', { opacity: 1, duration: 0.8, stagger: 0.2 }, "-=0.8")
         .to('.passcode-slot', { opacity: 1, duration: 0.5, stagger: 0.1 }, "-=0.5");
 
-      // Yardımcı Fonksiyonlar
       const updateSlot = (index, char) => {
         const slots = inputRef.current?.children;
         if (slots && slots[index]) {
@@ -52,7 +52,7 @@ const Password = () => {
         });
       };
 
-      // 4. ADIM: Ana Döngü (4 Hak)
+      // 4. ADIM: (4 Hak)
       const tl = gsap.timeline({ repeat: -1, repeatDelay: 2, delay: 1 });
 
       // --- 1. HAK: 1895 (Hata) ---
@@ -72,7 +72,7 @@ const Password = () => {
         .to(guessMsgRef.current, { opacity: 0, duration: 0.3 })
         .call(() => { clearSlots(); setPassColor('#ffffff'); });
 
-      // --- 3. HAK: 221B (Hata) ---
+      // --- 2. HAK: 221B (Hata) ---
       tl.to({}, { duration: 0.5 })
         .call(() => updateSlot(0, '2')).to({}, { duration: 0.2 })
         .call(() => updateSlot(1, '2')).to({}, { duration: 0.2 })
@@ -91,7 +91,7 @@ const Password = () => {
 
 
 
-      // --- 2. HAK: 1058 (Hata) ---
+      // --- 3. HAK: 1058 (Hata) ---
       tl.to({}, { duration: 0.5 })
         .call(() => updateSlot(0, '1')).to({}, { duration: 0.2 })
         .call(() => updateSlot(1, '0')).to({}, { duration: 0.2 })
