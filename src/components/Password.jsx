@@ -149,7 +149,6 @@ const Password = () => {
 
       <div ref={phoneRef} className="phone-body">
         <div className="phone-content">
-          <div className="label-text">I AM</div>
           <div ref={inputRef} className="passcode-wrapper">
             {[0, 1, 2, 3].map((i) => (
               <div key={i} className="passcode-slot"></div>
