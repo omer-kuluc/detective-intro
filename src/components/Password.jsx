@@ -53,7 +53,6 @@ const Password = () => {
         });
       };
 
-      // 4. ADIM: Animasyon Döngüsü
       const tl = gsap.timeline({ repeat: -1, repeatDelay: 2, delay: 1 });
 
       // --- 1. HAK: 1895 (Hata) ---
@@ -107,7 +106,7 @@ const Password = () => {
         .to(guessMsgRef.current, { opacity: 0, duration: 0.3 })
         .call(() => { clearSlots(); setPassColor('#ffffff'); });
 
-      // --- 4. HAK: SHER (Başarılı) ---
+      // --- 4. HAK: (Başarılı) ---
       tl.to({}, { duration: 0.5 })
         .call(() => updateSlot(0, '*')).to({}, { duration: 0.2 })
         .call(() => updateSlot(1, '*')).to({}, { duration: 0.2 })
@@ -146,7 +145,6 @@ const Password = () => {
       </div>
 
       <div ref={phoneRef} className="phone-body">
-        {/* Üst Telif Yazısı: Eser Sahipleri */}
         <div className="credits-text credits-top">
           Inspired by Sir Arthur Conan Doyle & Sherlock TV Series (2010-2017)
         </div>
@@ -163,7 +161,6 @@ const Password = () => {
           </div>
         </div>
 
-        {/* Alt Telif Yazısı: Ticari Olmadığı Beyanı */}
         <div className="credits-text credits-bottom">
           Non-commercial tribute project for educational purposes only
         </div>

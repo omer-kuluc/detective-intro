@@ -8,13 +8,12 @@ const FloatingLetter = ({ char }) => {
     let ctx = gsap.context(() => {
       if (!letterRef.current) return;
 
-      // 1. ADIM: Konum, opaklık ve görünürlüğü AYNI ANDA set et
       gsap.set(letterRef.current, {
         x: (Math.random() * window.innerWidth) - (window.innerWidth / 2),
         y: (Math.random() * window.innerHeight) - (window.innerHeight / 2),
         opacity: 0,
         scale: Math.random() * 0.3 + 0.8,
-        visibility: "visible" // CSS'teki gizliliği burada kırıyoruz
+        visibility: "visible"
       });
 
       const animateBounce = () => {
@@ -61,7 +60,7 @@ const FloatingLetter = ({ char }) => {
     <div
       ref={letterRef}
       className="floating-letter"
-      style={{ opacity: 0, visibility: 'hidden' }} // CSS Koruma
+      style={{ opacity: 0, visibility: 'hidden' }}
     >
       {char}
     </div>
